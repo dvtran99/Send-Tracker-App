@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:send_tracker_app/screens/add-send-screen.dart';
+import 'package:send_tracker_app/screens/add-workout-screen.dart';
 import 'package:send_tracker_app/screens/history-screen.dart';
 
 class NavDrawer extends StatelessWidget {
@@ -26,6 +27,14 @@ class NavDrawer extends StatelessWidget {
             onTap: () => {
               Navigator.of(context).push(
                   MaterialPageRoute(builder: (context) => AddSendScreen()))
+            },
+          ),
+          ListTile(
+            leading: Icon(Icons.add),
+            title: Text('Add Workout'),
+            onTap: () => {
+              Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) => AddWorkoutScreen()))
             },
           ),
           ListTile(

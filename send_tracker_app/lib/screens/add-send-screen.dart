@@ -323,13 +323,13 @@ class AddSendScreenState extends State<AddSendScreen> {
           ),
           SizedBox(height: 20),
           SizedBox(
-            width: 100,
+            width: 150,
             height: 30,
             child: ElevatedButton(
                 onPressed: () {
                   print('Pressed!');
                 },
-                child: Text("Add")),
+                child: Text("Add Send")),
           ),
         ],
       )),
