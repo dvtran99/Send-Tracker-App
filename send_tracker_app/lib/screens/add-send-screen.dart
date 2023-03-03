@@ -10,9 +10,27 @@ class AddSendScreen extends StatefulWidget {
 class AddSendScreenState extends State<AddSendScreen> {
   TextStyle textTheme = TextStyle(fontSize: 20);
 
+  String locationValue = 'Indoor';
   String gradeValue = 'V0';
+  String colorValue = 'Red';
+  String styleValue = 'Juggy';
 
-  List<DropdownMenuItem<String>> get dropdownItems {
+  List<String> styles = <String>[];
+
+  List<DropdownMenuItem<String>> get locationItems {
+    return [
+      DropdownMenuItem(
+        value: 'Indoor',
+        child: Text('Indoor'),
+      ),
+      DropdownMenuItem(
+        value: 'Outdoor',
+        child: Text('Outdoor'),
+      ),
+    ];
+  }
+
+  List<DropdownMenuItem<String>> get gradeItems {
     return [
       DropdownMenuItem(
         value: 'V0',
@@ -61,6 +79,80 @@ class AddSendScreenState extends State<AddSendScreen> {
     ];
   }
 
+  List<DropdownMenuItem<String>> get colorItems {
+    return [
+      DropdownMenuItem(
+        value: 'Red',
+        child: Text('Red'),
+      ),
+      DropdownMenuItem(
+        value: 'Yellow',
+        child: Text('Yellow'),
+      ),
+      DropdownMenuItem(
+        value: 'Green',
+        child: Text('Green'),
+      ),
+      DropdownMenuItem(
+        value: 'White',
+        child: Text('White'),
+      ),
+      DropdownMenuItem(
+        value: 'Blue',
+        child: Text('Blue'),
+      ),
+      DropdownMenuItem(
+        value: 'Black',
+        child: Text('Black'),
+      ),
+      DropdownMenuItem(
+        value: 'Purple',
+        child: Text('Purple'),
+      ),
+      DropdownMenuItem(
+        value: 'Orange',
+        child: Text('Orange'),
+      ),
+      DropdownMenuItem(
+        value: 'Pink',
+        child: Text('Pink'),
+      ),
+    ];
+  }
+
+  List<DropdownMenuItem<String>> get styleItems {
+    return [
+      DropdownMenuItem(
+        value: 'Juggy',
+        child: Text('Juggy'),
+      ),
+      DropdownMenuItem(
+        value: 'Crimpy',
+        child: Text('Crimpy'),
+      ),
+      DropdownMenuItem(
+        value: 'Pinchy',
+        child: Text('Pinchy'),
+      ),
+      DropdownMenuItem(
+        value: 'Slopey',
+        child: Text('Slopey'),
+      ),
+      DropdownMenuItem(
+        value: 'Slabby',
+        child: Text('Slabby'),
+      ),
+      DropdownMenuItem(
+        value: 'Dynamicy',
+        child: Text('Dynamicy'),
+      ),
+      DropdownMenuItem(
+        value: 'Compressiony',
+        child: Text('Compressiony'),
+      ),
+    ];
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -71,17 +163,49 @@ class AddSendScreenState extends State<AddSendScreen> {
           child: Column(
         children: [
           SizedBox(height: 20),
-          Text("Picture of Route", style: textTheme),
-          SizedBox(height: 20),
-          Container(
-            height: 120,
-            width: 120,
-            decoration: BoxDecoration(border: Border.all(color: Colors.black)),
+          SizedBox(
+            height: 50,
+            width: 200,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text("Location", style: textTheme),
+                DropdownButton(
+                    focusNode: FocusNode(canRequestFocus: false),
+                    value: locationValue,
+                    items: locationItems,
+                    onChanged: (String? newValue) {
+                      setState(() {
+                        locationValue = newValue!;
+                      });
+                    }),
+              ],
+            ),
           ),
           SizedBox(height: 20),
           SizedBox(
             height: 50,
-            width: 150,
+            width: 200,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text("Color", style: textTheme),
+                DropdownButton(
+                    focusNode: FocusNode(canRequestFocus: false),
+                    value: colorValue,
+                    items: colorItems,
+                    onChanged: (String? newValue) {
+                      setState(() {
+                        colorValue = newValue!;
+                      });
+                    }),
+              ],
+            ),
+          ),
+          SizedBox(height: 20),
+          SizedBox(
+            height: 50,
+            width: 200,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -89,7 +213,7 @@ class AddSendScreenState extends State<AddSendScreen> {
                 DropdownButton(
                     focusNode: FocusNode(canRequestFocus: false),
                     value: gradeValue,
-                    items: dropdownItems,
+                    items: gradeItems,
                     onChanged: (String? newValue) {
                       setState(() {
                         gradeValue = newValue!;
@@ -99,13 +223,64 @@ class AddSendScreenState extends State<AddSendScreen> {
             ),
           ),
           SizedBox(height: 20),
-          Text("Filters", style: textTheme),
+          SizedBox(
+            height: 50,
+            width: 200,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text("Style", style: textTheme),
+                DropdownButton(
+                    focusNode: FocusNode(canRequestFocus: false),
+                    value: styleValue,
+                    items: styleItems,
+                    onChanged: (String? newValue) {
+                      setState(() {
+                        styleValue = newValue!;
+                        if (!styles.contains(styleValue)) {
+                          styles.add(styleValue);
+                        }
+                      });
+                    }),
+              ],
+            ),
+          ),
           SizedBox(height: 20),
-          ElevatedButton(
-              onPressed: () {
-                print('Pressed!');
+          SizedBox(
+            height: 50.0 * styles.length,
+            width: 200,
+            child: ListView.builder(
+              itemCount: styles.length,
+              itemBuilder: (BuildContext context, int index) {
+                return Container(
+                  height: 50,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(styles[index]),
+                      CloseButton(
+                        onPressed: () {
+                          setState(() {
+                            styles.removeAt(index);
+                          });
+                        },
+                      )
+                    ],
+                  ),
+                );
               },
-              child: Text("Add")),
+            ),
+          ),
+          SizedBox(height: 20),
+          SizedBox(
+            width: 100,
+            height: 30,
+            child: ElevatedButton(
+                onPressed: () {
+                  print('Pressed!');
+                },
+                child: Text("Add")),
+          ),
         ],
       )),
     );
