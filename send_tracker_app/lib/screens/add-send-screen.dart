@@ -17,6 +17,9 @@ class AddSendScreenState extends State<AddSendScreen> {
 
   List<String> styles = <String>[];
 
+  bool showCustomStyle = false;
+  final customStyleController = TextEditingController();
+
   List<DropdownMenuItem<String>> get locationItems {
     return [
       DropdownMenuItem(
@@ -150,6 +153,10 @@ class AddSendScreenState extends State<AddSendScreen> {
         value: 'Compressiony',
         child: Text('Compressiony'),
       ),
+      DropdownMenuItem(
+        value: 'Custom...',
+        child: Text('Custom...'),
+      ),
     ];
   }
 
@@ -237,6 +244,10 @@ class AddSendScreenState extends State<AddSendScreen> {
                     onChanged: (String? newValue) {
                       setState(() {
                         styleValue = newValue!;
+                        if (styleValue == 'Custom...') {
+                          showCustomStyle = true;
+                          return;
+                        }
                         if (!styles.contains(styleValue)) {
                           styles.add(styleValue);
                         }
@@ -245,6 +256,45 @@ class AddSendScreenState extends State<AddSendScreen> {
               ],
             ),
           ),
+          if (showCustomStyle) ...[
+            SizedBox(height: 20),
+            SizedBox(
+              height: 50,
+              width: 200,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  SizedBox(
+                    height: 50,
+                    width: 150,
+                    child: TextField(
+                      controller: customStyleController,
+                      decoration: InputDecoration(hintText: 'Custom Style'),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 50,
+                    width: 50,
+                    child: ElevatedButton(
+                        onPressed: () {
+                          setState(() {
+                            if (!styles.contains(customStyleController.text)) {
+                              styles.add(customStyleController.text);
+                              customStyleController.text = '';
+                              showCustomStyle = false;
+                              styleValue = 'Juggy';
+                            }
+                          });
+                        },
+                        child: Text(
+                          '+',
+                          style: textTheme,
+                        )),
+                  )
+                ],
+              ),
+            ),
+          ],
           SizedBox(height: 20),
           SizedBox(
             height: 50.0 * styles.length,
@@ -284,5 +334,11 @@ class AddSendScreenState extends State<AddSendScreen> {
         ],
       )),
     );
+  }
+
+  @override
+  void dispose() {
+    customStyleController.dispose();
+    super.dispose();
   }
 }
