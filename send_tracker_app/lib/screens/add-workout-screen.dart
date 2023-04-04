@@ -79,8 +79,9 @@ class AddWorkoutScreenState extends State<AddWorkoutScreen> {
                         int weight = int.tryParse(value[5]) == null
                             ? 0
                             : int.parse(value[5]);
+                        int volume = sets * reps * weight;
                         print(
-                            "Index: $key / Type $type / Name $name / Sets $sets / Reps $reps / Weight $weight");
+                            "Index: $key / Type $type / Name $name / Volume $volume");
                       });
                     },
                     child: Text("Add Session")),
