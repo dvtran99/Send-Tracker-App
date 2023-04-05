@@ -7,6 +7,7 @@ class DataBase {
     String path = await getDatabasesPath();
     return openDatabase(
       join(path, 'data.db'),
+      version: 1,
       onCreate: (Database db, int version) async {
         await db.execute(
             "CREATE TABLE exercises(id INTEGER PRIMARY KEY , type CHAR(32) NOT NULL , name CHAR(32) NOT NULL, volume INTEGER NOT NULL)");

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:send_tracker_app/widgets/exercise-form.dart';
+import 'package:send_tracker_app/widgets/confirmation-alert.dart';
 
 class AddWorkoutScreen extends StatefulWidget {
   const AddWorkoutScreen({Key? key}) : super(key: key);
@@ -66,23 +67,18 @@ class AddWorkoutScreenState extends State<AddWorkoutScreen> {
                 width: 150,
                 height: 30,
                 child: ElevatedButton(
-                    onPressed: () {
-                      formData.forEach((key, value) {
-                        String type = value[1];
-                        String name = value[2];
-                        int sets = int.tryParse(value[3]) == null
-                            ? 0
-                            : int.parse(value[3]);
-                        int reps = int.tryParse(value[4]) == null
-                            ? 0
-                            : int.parse(value[4]);
-                        int weight = int.tryParse(value[5]) == null
-                            ? 0
-                            : int.parse(value[5]);
-                        int volume = sets * reps * weight;
-                        print(
-                            "Index: $key / Type $type / Name $name / Volume $volume");
-                      });
+                    onPressed: () async {
+                      String result = await showDialog(
+                          context: context,
+                          builder: (BuildContext context) => ConfirmationAlert(
+                                type: "send",
+                              ));
+                      if (result == "OK") {
+                        print("User pressed OK");
+                        if (context.mounted) {
+                          Navigator.of(context).pop();
+                        }
+                      }
                     },
                     child: Text("Add Session")),
               ),

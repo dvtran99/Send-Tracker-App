@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:send_tracker_app/widgets/confirmation-alert.dart';
 
 class AddSendScreen extends StatefulWidget {
   const AddSendScreen({Key? key}) : super(key: key);
@@ -326,8 +327,18 @@ class AddSendScreenState extends State<AddSendScreen> {
             width: 150,
             height: 30,
             child: ElevatedButton(
-                onPressed: () {
-                  print('Pressed!');
+                onPressed: () async {
+                  String result = await showDialog(
+                      context: context,
+                      builder: (BuildContext context) => ConfirmationAlert(
+                            type: "send",
+                          ));
+                  if (result == "OK") {
+                    print("User pressed OK");
+                    if (context.mounted) {
+                      Navigator.of(context).pop();
+                    }
+                  }
                 },
                 child: Text("Add Send")),
           ),
