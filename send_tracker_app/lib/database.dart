@@ -3,6 +3,7 @@ import 'package:sqflite/sqflite.dart';
 import 'package:send_tracker_app/models/exercise.dart';
 
 class DataBase {
+  // Open database. Create database if it doesn't exist at specified path
   Future<Database> initializeDB() async {
     String path = await getDatabasesPath();
     return openDatabase(
@@ -26,6 +27,7 @@ class DataBase {
     );
   }
 
+  // Insert a list of exercises into table
   Future<int> insertExercises(List<Exercise> exercises) async {
     int result = 0;
     final Database db = await initializeDB();
@@ -38,9 +40,18 @@ class DataBase {
     return result;
   }
 
+  // Return list of exercises from table
   Future<List<Exercise>> getExercises() async {
     final Database db = await initializeDB();
     final List<Map<String, Object?>> queryResult = await db.query('exercises');
+
     return queryResult.map((e) => Exercise.fromMap(e)).toList();
+  }
+
+  // Delete exercise at specified ID
+  Future<void> deleteExercise(int id) async {
+    final Database db = await initializeDB();
+
+    await db.delete('exercises', where: 'id = ?', whereArgs: [id]);
   }
 }

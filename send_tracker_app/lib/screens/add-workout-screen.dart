@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:send_tracker_app/widgets/exercise-form.dart';
 import 'package:send_tracker_app/widgets/confirmation-alert.dart';
+import 'package:send_tracker_app/models/exercise.dart';
+import 'package:send_tracker_app/helpers.dart';
+import 'package:send_tracker_app/database.dart';
 
 class AddWorkoutScreen extends StatefulWidget {
   const AddWorkoutScreen({Key? key}) : super(key: key);
@@ -10,6 +13,17 @@ class AddWorkoutScreen extends StatefulWidget {
 }
 
 class AddWorkoutScreenState extends State<AddWorkoutScreen> {
+  late DataBase db;
+
+  @override
+  void initState() {
+    super.initState();
+    db = DataBase();
+    db.initializeDB().whenComplete(() async {
+      setState(() {});
+    });
+  }
+
   var exercises = <ExerciseForm>[];
   Map formData = <int, List<String>>{};
 
@@ -74,7 +88,6 @@ class AddWorkoutScreenState extends State<AddWorkoutScreen> {
                                 type: "send",
                               ));
                       if (result == "OK") {
-                        print("User pressed OK");
                         if (context.mounted) {
                           Navigator.of(context).pop();
                         }
