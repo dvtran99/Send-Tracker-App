@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:send_tracker_app/widgets/confirmation-alert.dart';
+import 'package:send_tracker_app/models/send.dart';
 import 'package:send_tracker_app/helpers.dart';
+import 'package:send_tracker_app/database.dart';
 
 class AddSendScreen extends StatefulWidget {
   const AddSendScreen({Key? key}) : super(key: key);
@@ -10,6 +12,17 @@ class AddSendScreen extends StatefulWidget {
 }
 
 class AddSendScreenState extends State<AddSendScreen> {
+  late DataBase db;
+
+  @override
+  void initState() {
+    super.initState();
+    db = DataBase();
+    db.initializeDB().whenComplete(() async {
+      setState(() {});
+    });
+  }
+
   TextStyle textTheme = TextStyle(fontSize: 20);
 
   String locationValue = 'Indoor';

@@ -1,6 +1,7 @@
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:send_tracker_app/models/exercise.dart';
+import 'package:send_tracker_app/models/send.dart';
 
 class DataBase {
   // Open database. Create database if it doesn't exist at specified path
@@ -53,5 +54,25 @@ class DataBase {
     final Database db = await initializeDB();
 
     await db.delete('exercises', where: 'id = ?', whereArgs: [id]);
+  }
+
+  Future<int> insertSend(Send send) async {
+    final Database db = await initializeDB();
+
+    return await db.insert('sends', send.toMap(),
+        conflictAlgorithm: ConflictAlgorithm.replace);
+  }
+
+  Future<List<Send>> getSends() async {
+    final Database db = await initializeDB();
+    final List<Map<String, Object?>> queryResult = await db.query('sends');
+
+    return queryResult.map((e) => Send.fromMap(e)).toList();
+  }
+
+  Future<void> deleteSend(int id) async {
+    final Database db = await initializeDB();
+
+    await db.delete('sends', where: 'id = ?', whereArgs: [id]);
   }
 }
