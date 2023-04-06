@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:send_tracker_app/widgets/confirmation-alert.dart';
+import 'package:send_tracker_app/helpers.dart';
 
 class AddSendScreen extends StatefulWidget {
   const AddSendScreen({Key? key}) : super(key: key);
@@ -334,7 +335,6 @@ class AddSendScreenState extends State<AddSendScreen> {
                             type: "send",
                           ));
                   if (result == "OK") {
-                    print("User pressed OK");
                     if (context.mounted) {
                       Navigator.of(context).pop();
                     }

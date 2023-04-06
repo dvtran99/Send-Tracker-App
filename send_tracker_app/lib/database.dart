@@ -9,10 +9,19 @@ class DataBase {
       join(path, 'data.db'),
       version: 1,
       onCreate: (Database db, int version) async {
-        await db.execute(
-            "CREATE TABLE exercises(id INTEGER PRIMARY KEY , type CHAR(32) NOT NULL , name CHAR(32) NOT NULL, volume INTEGER NOT NULL)");
-        await db.execute(
-            "CREATE TABLE sends(id INTEGER PRIMARY KEY, location CHAR(10) NOT NULL, color CHAR(16) NOT NULL, grade INTEGER NOT NULL, styles TEXT NOT NULL)");
+        await db.execute("""CREATE TABLE exercises(
+            id INTEGER PRIMARY KEY, 
+            date CHAR(8) NOT NULL, 
+            type CHAR(32) NOT NULL, 
+            name CHAR(32) NOT NULL, 
+            volume INTEGER NOT NULL)""");
+        await db.execute("""CREATE TABLE sends(
+            id INTEGER PRIMARY KEY, 
+            date CHAR(8) NOT NULL , 
+            location CHAR(10) NOT NULL, 
+            color CHAR(16) NOT NULL, 
+            grade INTEGER NOT NULL, 
+            styles TEXT NOT NULL)""");
       },
     );
   }
