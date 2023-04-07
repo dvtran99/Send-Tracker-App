@@ -75,4 +75,14 @@ class DataBase {
 
     await db.delete('sends', where: 'id = ?', whereArgs: [id]);
   }
+
+  Future<int> nextId(String table) async {
+    final Database db = await initializeDB();
+
+    int maxId = Sqflite.firstIntValue(
+            await db.rawQuery('SELECT MAX(id) FROM $table')) ??
+        0;
+
+    return maxId + 1;
+  }
 }

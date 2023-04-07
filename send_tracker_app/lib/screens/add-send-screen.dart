@@ -149,6 +149,10 @@ class AddSendScreenState extends State<AddSendScreen> {
         child: Text('Crimpy'),
       ),
       DropdownMenuItem(
+        value: 'Compy',
+        child: Text('Compy'),
+      ),
+      DropdownMenuItem(
         value: 'Pinchy',
         child: Text('Pinchy'),
       ),
@@ -348,6 +352,22 @@ class AddSendScreenState extends State<AddSendScreen> {
                             type: "send",
                           ));
                   if (result == "OK") {
+                    String stylesString = "";
+
+                    for (var style in styles) {
+                      stylesString += "$style;";
+                    }
+
+                    var sendEntry = Send(
+                        id: await db.nextId('sends'),
+                        date: Helpers.today(),
+                        location: locationValue,
+                        color: colorValue,
+                        grade: int.parse(gradeValue.substring(1)),
+                        styles: stylesString);
+
+                    await db.insertSend(sendEntry);
+
                     if (context.mounted) {
                       Navigator.of(context).pop();
                     }
