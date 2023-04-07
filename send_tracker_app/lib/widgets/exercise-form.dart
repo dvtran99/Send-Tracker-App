@@ -3,10 +3,13 @@ import 'package:flutter/services.dart';
 
 class ExerciseForm extends StatefulWidget {
   final void Function(List<String>) onData;
-  final int index;
+  // TODO: Re-add index when multiple exercise forms are generated at once
+  // final int index;
 
-  const ExerciseForm({Key? key, required this.index, required this.onData})
-      : super(key: key);
+  // const ExerciseForm({Key? key, required this.index, required this.onData})
+  //     : super(key: key);
+
+  const ExerciseForm({Key? key, required this.onData}) : super(key: key);
 
   @override
   ExerciseFormState createState() => ExerciseFormState();
@@ -22,6 +25,7 @@ class ExerciseFormState extends State<ExerciseForm> {
   final repsController = TextEditingController();
   final weightController = TextEditingController();
 
+  // Types of exercises for each muscle group
   Map<String, List<DropdownMenuItem<String>>> exerciseMap = {
     'Chest': [
       DropdownMenuItem(
@@ -166,7 +170,7 @@ class ExerciseFormState extends State<ExerciseForm> {
 
   void submitData() {
     widget.onData([
-      widget.index.toString(),
+      // widget.index.toString(),
       typeValue,
       exerciseValue,
       setsController.text,
@@ -179,6 +183,7 @@ class ExerciseFormState extends State<ExerciseForm> {
   Widget build(BuildContext context) {
     return Column(
       children: [
+        // Muscle group dropdown
         SizedBox(
           height: 50,
           width: 250,
@@ -200,6 +205,7 @@ class ExerciseFormState extends State<ExerciseForm> {
             ],
           ),
         ),
+        // Exercise dropdown
         SizedBox(
           height: 50,
           width: 250,
@@ -220,6 +226,7 @@ class ExerciseFormState extends State<ExerciseForm> {
             ],
           ),
         ),
+        // Sets text field
         SizedBox(
           height: 50,
           width: 250,
@@ -240,6 +247,7 @@ class ExerciseFormState extends State<ExerciseForm> {
             ],
           ),
         ),
+        // Reps text field
         SizedBox(
           height: 50,
           width: 250,
@@ -260,6 +268,7 @@ class ExerciseFormState extends State<ExerciseForm> {
             ],
           ),
         ),
+        // Weight text field
         SizedBox(
           height: 50,
           width: 250,
