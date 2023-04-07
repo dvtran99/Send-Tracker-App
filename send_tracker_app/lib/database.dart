@@ -56,6 +56,7 @@ class DataBase {
     await db.delete('exercises', where: 'id = ?', whereArgs: [id]);
   }
 
+  // Insert send into table
   Future<int> insertSend(Send send) async {
     final Database db = await initializeDB();
 
@@ -63,6 +64,7 @@ class DataBase {
         conflictAlgorithm: ConflictAlgorithm.replace);
   }
 
+  // Return list of sends from table
   Future<List<Send>> getSends() async {
     final Database db = await initializeDB();
     final List<Map<String, Object?>> queryResult = await db.query('sends');
@@ -70,12 +72,14 @@ class DataBase {
     return queryResult.map((e) => Send.fromMap(e)).toList();
   }
 
+  // Delete send at specified ID
   Future<void> deleteSend(int id) async {
     final Database db = await initializeDB();
 
     await db.delete('sends', where: 'id = ?', whereArgs: [id]);
   }
 
+  // Return next ID of specified table
   Future<int> nextId(String table) async {
     final Database db = await initializeDB();
 

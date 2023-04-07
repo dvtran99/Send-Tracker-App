@@ -189,6 +189,7 @@ class AddSendScreenState extends State<AddSendScreen> {
           child: Column(
         children: [
           SizedBox(height: 20),
+          // Location dropdown
           SizedBox(
             height: 50,
             width: 200,
@@ -209,6 +210,7 @@ class AddSendScreenState extends State<AddSendScreen> {
             ),
           ),
           SizedBox(height: 20),
+          // Color dropdown
           SizedBox(
             height: 50,
             width: 200,
@@ -229,6 +231,7 @@ class AddSendScreenState extends State<AddSendScreen> {
             ),
           ),
           SizedBox(height: 20),
+          // Grade dropdown
           SizedBox(
             height: 50,
             width: 200,
@@ -249,6 +252,7 @@ class AddSendScreenState extends State<AddSendScreen> {
             ),
           ),
           SizedBox(height: 20),
+          // Style dropdown with list
           SizedBox(
             height: 50,
             width: 200,
@@ -263,10 +267,12 @@ class AddSendScreenState extends State<AddSendScreen> {
                     onChanged: (String? newValue) {
                       setState(() {
                         styleValue = newValue!;
+                        // Show text field for custom styles
                         if (styleValue == 'Custom...') {
                           showCustomStyle = true;
                           return;
                         }
+                        // Only add unique styles
                         if (!styles.contains(styleValue)) {
                           styles.add(styleValue);
                         }
@@ -297,8 +303,10 @@ class AddSendScreenState extends State<AddSendScreen> {
                     child: ElevatedButton(
                         onPressed: () {
                           setState(() {
+                            // Only add unique styles
                             if (!styles.contains(customStyleController.text)) {
                               styles.add(customStyleController.text);
+                              // Remove text field after adding style
                               customStyleController.text = '';
                               showCustomStyle = false;
                               styleValue = 'Juggy';
@@ -330,6 +338,7 @@ class AddSendScreenState extends State<AddSendScreen> {
                       CloseButton(
                         onPressed: () {
                           setState(() {
+                            // Remove style at specified index
                             styles.removeAt(index);
                           });
                         },
@@ -354,10 +363,12 @@ class AddSendScreenState extends State<AddSendScreen> {
                   if (result == "OK") {
                     String stylesString = "";
 
+                    // Combine all chosen styles into one string
                     for (var style in styles) {
                       stylesString += "$style;";
                     }
 
+                    // Create send entry
                     var sendEntry = Send(
                         id: await db.nextId('sends'),
                         date: Helpers.today(),
@@ -366,8 +377,10 @@ class AddSendScreenState extends State<AddSendScreen> {
                         grade: int.parse(gradeValue.substring(1)),
                         styles: stylesString);
 
+                    // Insert entry into database
                     await db.insertSend(sendEntry);
 
+                    // Go back
                     if (context.mounted) {
                       Navigator.of(context).pop();
                     }
