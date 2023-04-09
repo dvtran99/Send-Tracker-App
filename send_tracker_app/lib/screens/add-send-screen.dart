@@ -380,6 +380,8 @@ class AddSendScreenState extends State<AddSendScreen> {
                     // Insert entry into database
                     await db.insertSend(sendEntry);
 
+                    print(await db.getSends());
+
                     // Go back
                     if (context.mounted) {
                       Navigator.of(context).pop();
