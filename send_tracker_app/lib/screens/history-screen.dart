@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:send_tracker_app/database.dart';
 import 'package:send_tracker_app/models/exercise.dart';
 import 'package:send_tracker_app/models/send.dart';
+import 'package:send_tracker_app/widgets/delete-alert.dart';
 
 class HistoryScreen extends StatefulWidget {
   const HistoryScreen({Key? key}) : super(key: key);
@@ -197,8 +198,14 @@ class HistoryScreenState extends State<HistoryScreen> {
                           height: 25,
                           alignment: Alignment.center,
                           child: GestureDetector(
-                            onTap: () {
-                              print('Tapped!');
+                            onTap: () async {
+                              String result = await showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) =>
+                                      DeleteAlert(type: "send", send: send));
+                              if (result == "OK") {
+                                print("Pressed OK");
+                              }
                             },
                             child: Text(
                               'X',
@@ -313,8 +320,16 @@ class HistoryScreenState extends State<HistoryScreen> {
                           height: 25,
                           alignment: Alignment.center,
                           child: GestureDetector(
-                            onTap: () {
-                              print('Tapped!');
+                            onTap: () async {
+                              String result = await showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) =>
+                                      DeleteAlert(
+                                          type: "exercise",
+                                          exercise: exercise));
+                              if (result == "OK") {
+                                print("Pressed OK");
+                              }
                             },
                             child: Text(
                               'X',
