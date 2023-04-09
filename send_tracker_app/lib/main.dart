@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'widgets/nav-drawer.dart';
 import 'widgets/sends-metrics.dart';
+import 'widgets/exercises-metrics.dart';
 import 'database.dart';
-
-import 'package:fl_chart/fl_chart.dart';
-import 'helpers.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -58,7 +56,6 @@ class HomePageState extends State<HomePage> {
     super.initState();
     db = DataBase();
     db.initializeDB().whenComplete(() async {
-      print("INITIALIZED!");
       setState(() {});
     });
   }
@@ -74,10 +71,6 @@ class HomePageState extends State<HomePage> {
       DropdownMenuItem(
         value: 'exercises',
         child: Text('Exercises'),
-      ),
-      DropdownMenuItem(
-        value: 'queries',
-        child: Text('Queries'),
       ),
     ];
   }
@@ -113,49 +106,10 @@ class HomePageState extends State<HomePage> {
                   ],
                 ),
               ),
-              if (graphValue == 'queries') ...[
-                ElevatedButton(
-                  onPressed: () async {
-                    var totSends = await db.totalSendsPerDay();
-                    print(totSends);
-                  },
-                  child: const Text("Query tot_send"),
-                ),
-                ElevatedButton(
-                  onPressed: () async {
-                    var avgSends = await db.averageSendsPerDay();
-                    print(avgSends);
-                  },
-                  child: const Text("Query avg_send"),
-                ),
-                ElevatedButton(
-                  onPressed: () async {
-                    var totChestVolume = await db.totalVolumePerDay('Chest');
-                    print(totChestVolume);
-                    var totBackVolume = await db.totalVolumePerDay('Back');
-                    print(totBackVolume);
-                    var totLegVolume = await db.totalVolumePerDay('Leg');
-                    print(totLegVolume);
-                    var totShoulderVolume =
-                        await db.totalVolumePerDay('Shoulder');
-                    print(totShoulderVolume);
-                  },
-                  child: const Text("Query tot_volume"),
-                ),
-                ElevatedButton(
-                  onPressed: () async {
-                    List<Map> totalSendsData = await db.totalSendsPerDay();
-                    List<FlSpot> totalSendsPoints =
-                        Helpers.dataToPoints(totalSendsData, 'COUNT(id)')
-                                .map((item) => item as FlSpot)
-                                ?.toList() ??
-                            [];
-                    print(totalSendsPoints);
-                  },
-                  child: const Text("Get fl spots"),
-                ),
-              ] else if (graphValue == 'sends') ...[
+              if (graphValue == 'sends') ...[
                 SendsMetrics(),
+              ] else if (graphValue == 'exercises') ...[
+                ExercisesMetrics(),
               ],
             ],
           ),

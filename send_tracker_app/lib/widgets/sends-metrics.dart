@@ -24,6 +24,7 @@ class SendsMetricsState extends State<SendsMetrics> {
     super.initState();
     db = DataBase();
     db.initializeDB().whenComplete(() async {
+      // Load and format total sends data
       List<Map> totalSendsData = await db.totalSendsPerDay();
       totalSendsPoints = Helpers.dataToPoints(totalSendsData, 'COUNT(id)')
               .map((item) => item as FlSpot)
@@ -35,6 +36,7 @@ class SendsMetricsState extends State<SendsMetrics> {
           [];
       totalSendsYData.sort();
 
+      // Load and format average sends data
       List<Map> avgSendsData = await db.averageSendsPerDay();
       avgSendsPoints = Helpers.dataToPoints(avgSendsData, 'AVG(grade)')
               .map((item) => item as FlSpot)
@@ -59,6 +61,8 @@ class SendsMetricsState extends State<SendsMetrics> {
   Widget build(BuildContext context) {
     return Column(
       children: [
+        Text("Total Sends (Last 10 Sessions)", style: TextStyle(fontSize: 20)),
+        SizedBox(height: 10),
         Padding(
           padding: const EdgeInsets.only(right: 30.0),
           child: AspectRatio(
@@ -85,8 +89,10 @@ class SendsMetricsState extends State<SendsMetrics> {
                     sideTitles: SideTitles(showTitles: false),
                   ),
                 ),
-                minY: totalSendsYData.first - 1,
-                maxY: totalSendsYData.last + 1,
+                minY:
+                    totalSendsYData.isNotEmpty ? totalSendsYData.first - 1 : 0,
+                maxY:
+                    totalSendsYData.isNotEmpty ? totalSendsYData.last + 1 : 10,
                 minX: 0,
                 maxX: 9,
                 lineBarsData: [
@@ -110,6 +116,9 @@ class SendsMetricsState extends State<SendsMetrics> {
           ),
         ),
         SizedBox(height: 20),
+        Text("Average Sends (Last 10 Sessions)",
+            style: TextStyle(fontSize: 20)),
+        SizedBox(height: 10),
         Padding(
           padding: const EdgeInsets.only(right: 30.0),
           child: AspectRatio(
@@ -136,8 +145,8 @@ class SendsMetricsState extends State<SendsMetrics> {
                     sideTitles: SideTitles(showTitles: false),
                   ),
                 ),
-                minY: avgSendsYData.first - 1,
-                maxY: avgSendsYData.last + 1,
+                minY: avgSendsPoints.isNotEmpty ? avgSendsYData.first - 1 : 0,
+                maxY: avgSendsPoints.isNotEmpty ? avgSendsYData.last + 1 : 10,
                 minX: 0,
                 maxX: 9,
                 lineBarsData: [
