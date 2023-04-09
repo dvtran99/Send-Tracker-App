@@ -56,6 +56,18 @@ class DataBase {
     await db.delete('exercises', where: 'id = ?', whereArgs: [id]);
   }
 
+  // Return total volume for each day for specified type
+  Future<List<Map>> totalVolumePerDay(String type) async {
+    final Database db = await initializeDB();
+
+    List<Map> result = await db.rawQuery(
+        'SELECT date, type, SUM(volume) FROM exercises WHERE type=\'$type\' GROUP BY date');
+
+    db.close();
+
+    return result;
+  }
+
   // Insert send into table
   Future<int> insertSend(Send send) async {
     final Database db = await initializeDB();
@@ -79,6 +91,30 @@ class DataBase {
     await db.delete('sends', where: 'id = ?', whereArgs: [id]);
   }
 
+  // Return total sends for each day
+  Future<List<Map>> totalSendsPerDay() async {
+    final Database db = await initializeDB();
+
+    List<Map> result =
+        await db.rawQuery('SELECT date, COUNT(id) FROM sends GROUP BY date');
+
+    await db.close();
+
+    return result;
+  }
+
+  // Return average sends for each day
+  Future<List<Map>> averageSendsPerDay() async {
+    final Database db = await initializeDB();
+
+    List<Map> result =
+        await db.rawQuery('SELECT date, AVG(grade) FROM sends GROUP BY date');
+
+    await db.close();
+
+    return result;
+  }
+
   // Return next ID of specified table
   Future<int> nextId(String table) async {
     final Database db = await initializeDB();
@@ -86,6 +122,8 @@ class DataBase {
     int maxId = Sqflite.firstIntValue(
             await db.rawQuery('SELECT MAX(id) FROM $table')) ??
         0;
+
+    await db.close();
 
     return maxId + 1;
   }
