@@ -124,7 +124,7 @@ class AddWorkoutScreenState extends State<AddWorkoutScreen> {
                         }
                       }
                     },
-                    child: Text("Add Session")),
+                    child: Text("Add Exercise")),
               ),
             ],
           ),
