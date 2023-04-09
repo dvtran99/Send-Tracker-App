@@ -204,7 +204,10 @@ class HistoryScreenState extends State<HistoryScreen> {
                                   builder: (BuildContext context) =>
                                       DeleteAlert(type: "send", send: send));
                               if (result == "OK") {
-                                print("Pressed OK");
+                                db.deleteSend(send.id);
+                                // Reload table with updated data
+                                sendList = await db.getSends();
+                                setState(() {});
                               }
                             },
                             child: Text(
@@ -328,7 +331,10 @@ class HistoryScreenState extends State<HistoryScreen> {
                                           type: "exercise",
                                           exercise: exercise));
                               if (result == "OK") {
-                                print("Pressed OK");
+                                db.deleteExercise(exercise.id);
+                                // Reload table with updated data
+                                exerciseList = await db.getExercises();
+                                setState(() {});
                               }
                             },
                             child: Text(
