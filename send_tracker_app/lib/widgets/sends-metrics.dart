@@ -61,7 +61,7 @@ class SendsMetricsState extends State<SendsMetrics> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Text("Total Sends (Last 10 Sessions)", style: TextStyle(fontSize: 20)),
+        Text("Unique Sends (Last 10 Sessions)", style: TextStyle(fontSize: 20)),
         SizedBox(height: 10),
         Padding(
           padding: const EdgeInsets.only(right: 30.0),
@@ -116,7 +116,7 @@ class SendsMetricsState extends State<SendsMetrics> {
           ),
         ),
         SizedBox(height: 20),
-        Text("Average Sends (Last 10 Sessions)",
+        Text("Average Grade (Last 10 Sessions)",
             style: TextStyle(fontSize: 20)),
         SizedBox(height: 10),
         Padding(
@@ -145,7 +145,8 @@ class SendsMetricsState extends State<SendsMetrics> {
                     sideTitles: SideTitles(showTitles: false),
                   ),
                 ),
-                minY: avgSendsPoints.isNotEmpty ? avgSendsYData.first - 1 : 0,
+                // minY: avgSendsPoints.isNotEmpty ? avgSendsYData.first - 1 : 0,
+                minY: 0,
                 maxY: avgSendsPoints.isNotEmpty ? avgSendsYData.last + 1 : 10,
                 minX: 0,
                 maxX: 9,
