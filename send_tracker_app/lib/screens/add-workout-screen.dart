@@ -97,7 +97,7 @@ class AddWorkoutScreenState extends State<AddWorkoutScreen> {
                       String result = await showDialog(
                           context: context,
                           builder: (BuildContext context) => ConfirmationAlert(
-                                type: "send",
+                                type: "workout",
                               ));
                       // Make sure we have valid data
                       if (result == "OK" && formData.isNotEmpty) {
