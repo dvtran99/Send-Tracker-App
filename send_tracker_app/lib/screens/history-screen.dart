@@ -23,7 +23,9 @@ class HistoryScreenState extends State<HistoryScreen> {
     db = DataBase();
     db.initializeDB().whenComplete(() async {
       exerciseList = await db.getExercises();
+      exerciseList = exerciseList.reversed.toList();
       sendList = await db.getSends();
+      sendList = sendList.reversed.toList();
       setState(() {});
     });
   }
@@ -207,6 +209,7 @@ class HistoryScreenState extends State<HistoryScreen> {
                                   db.deleteSend(send.id);
                                   // Reload table with updated data
                                   sendList = await db.getSends();
+                                  sendList = sendList.reversed.toList();
                                   setState(() {});
                                 }
                               },
@@ -334,6 +337,7 @@ class HistoryScreenState extends State<HistoryScreen> {
                                   db.deleteExercise(exercise.id);
                                   // Reload table with updated data
                                   exerciseList = await db.getExercises();
+                                  exerciseList.reversed.toList();
                                   setState(() {});
                                 }
                               },
